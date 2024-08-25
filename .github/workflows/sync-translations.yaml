@@ -99,8 +99,42 @@ jobs:
       - name: Trigger repository dispatch
         run: |
           # Use the payload file in the curl command
-          curl -X POST \
+          response=$(curl -X POST \
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.REPO_PAT }}" \
             https://api.github.com/repos/ludjan/provides-translation-test/dispatches \
-            -d @payload.json
+            -d @payload.json)
+
+          echo "Response: $response"
+
+          # Extract the run ID
+          run_id=$(echo $response | jq -r '.id')
+          echo "RUN_ID=${run_id}" >> $GITHUB_ENV
+
+      - name: Check Status of Triggered Workflow
+        id: check_status
+        run: |
+          # Wait for some time to allow the workflow to start
+          sleep 20
+
+          # Get the status of the workflow run
+          status=$(curl -H "Authorization: token ${{ secrets.REPO_PAT }}" \
+            "https://api.github.com/repos/target-owner/target-repo/actions/runs/${{ env.RUN_ID }}" | jq -r '.status')
+
+          echo "Workflow status: $status"
+
+          if [[ "$status" != "completed" ]]; then
+            echo "Workflow did not complete successfully."
+            exit 1
+          fi
+
+          # Check the conclusion
+          conclusion=$(curl -H "Authorization: token ${{ secrets.REPO_PAT }}" \
+            "https://api.github.com/repos/target-owner/target-repo/actions/runs/${{ env.RUN_ID }}" | jq -r '.conclusion')
+
+          echo "Workflow conclusion: $conclusion"
+
+          if [[ "$conclusion" != "success" ]]; then
+            echo "Workflow failed."
+            exit 1
+          fi
