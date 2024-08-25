@@ -6,6 +6,7 @@ on:
       keys:
         description: "Comma-separated list of keys that require translation."
         required: true
+        default: key1
       target_languages:
         description: "Comma-separated list of target languages (e.g., es, fr, de)."
         required: false
@@ -18,6 +19,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.1.7
 
+      - name: List localisation files
+        run: ls -R ./src/resources/locale/
+
+
       - name: Extract Inputs
         id: extract_inputs
         run: |
@@ -25,8 +30,6 @@ jobs:
           TARGET_LANGUAGES="${{ github.event.inputs.target_languages }}"
           REPO="${{ github.repository }}"
           BRANCH="${{ github.ref_name }}"
-
-          ls -R ./src/resources/locale/
 
           # Convert the keys to a JSON array
           KEY_ARRAY=$(echo $KEYS | jq -R 'split(",")')
