@@ -22,6 +22,21 @@ jobs:
       - name: List localisation files
         run: ls -R ./src/resources/locale/
 
+      - name: Check jq version
+        run: jq --version
+
+      - name: Use jq to parse JSON
+        run: |
+          echo '{"key":"value"}' > data.json
+          cat data.json | jq '.key'
+
+      - name: Use jq to parse JSON
+        run: |
+          echo '{"key":"value"}' > data.json
+          cat data.json | jq '.key'
+          JSON_MAP=$(cat data.json | jq .)
+          echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
+
       - name: Extract Inputs
         id: extract_inputs
         run: |
@@ -42,12 +57,12 @@ jobs:
           #' ./src/resources/locale/en.json)
 
           # TEMP JSON MAP
-          JSON_MAP=$(echo '{"key1":"value1"}' | jq .)
+          # JSON_MAP=$(echo '{"key1":"value1"}' | jq .)
           
-          echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
-          echo "REPO=$REPO" >> $GITHUB_ENV
-          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          echo "TARGET_LANGAUGES" >> $GITHUB_ENV
+          # echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
+          # echo "REPO=$REPO" >> $GITHUB_ENV
+          # echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          # echo "TARGET_LANGAUGES" >> $GITHUB_ENV
 
       - name: Trigger Translation Workflow in Translation Repo
         run: |
