@@ -37,9 +37,12 @@ jobs:
           echo "Key array: $KEY_ARRAY"
 
           # Extract the English strings for the specified keys from the locale file
-          JSON_MAP=$(jq --argjson keys "$KEY_ARRAY" '
-            reduce $keys[] as $key ({}; .[$key] = .[$key])
-          ' ./src/resources/locale/en.json)
+          #JSON_MAP=$(jq --argjson keys "$KEY_ARRAY" '
+          #  reduce $keys[] as $key ({}; .[$key] = .[$key])
+          #' ./src/resources/locale/en.json)
+
+          # TEMP JSON MAP
+          JSON_MAP=$(echo '{"key1":"value1"}' | jq .)
           
           echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
           echo "REPO=$REPO" >> $GITHUB_ENV
