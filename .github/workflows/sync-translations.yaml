@@ -56,6 +56,6 @@ jobs:
         run: |
           curl -X POST \
             -H "Accept: application/vnd.github.everest-preview+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.REPO_PAT }}" \
             https://api.github.com/repos/ludjan/provides-translation-test/dispatches \
             -d '{"event_type": "create_translation_task", "client_payload": {{"keys": ${{ toJson(env.JSON_MAP) }}, "repository": "${REPO}", "branch": "${BRANCH}", "target_languages": "${TARGET_LANGUAGES}"}}'
