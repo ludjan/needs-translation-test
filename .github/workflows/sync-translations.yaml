@@ -49,7 +49,7 @@ jobs:
 
           echo "Sets default inputs"
           echo "JSON_MAP=$JSON_MAP"
-          echo "TARGET_LANGUAGE=$TARGET_LANGUAGE"
+          echo "TARGET_LANGUAGES=$TARGET_LANGUAGES"
           
           echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
           echo "TARGET_LANGAUGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
