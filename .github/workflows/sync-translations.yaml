@@ -52,7 +52,7 @@ jobs:
           echo "TARGET_LANGUAGES=$TARGET_LANGUAGES"
           
           echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
-          echo "TARGET_LANGAUGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
+          echo "TARGET_LANGUAGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
 
           echo "Set default inputs"
 
@@ -77,7 +77,7 @@ jobs:
           # TEMP JSON MAP
           JSON_MAP=$(echo '{"key1":"value1"}' | jq -c .)
           echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
-          echo "TARGET_LANGAUGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
+          echo "TARGET_LANGUAGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
 
       - name: Trigger Translation Workflow in Translation Repo
         run: |
