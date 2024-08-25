@@ -95,13 +95,12 @@ jobs:
 
           # Print the payload for debugging
           cat payload.json
-  
-      - name: Trigger Translation Workflow in Translation Repo
+      
+      - name: Trigger repository dispatch
         run: |
-          echo "Payload:"
-          echo "{"event_type": "create_translation_task", "client_payload": {"keys": $(echo '${{ toJson(env.JSON_MAP) }}'), "repository": "${REPO}", "branch": "${BRANCH}", "target_languages": "${TARGET_LANGUAGES}"}}"
+          # Use the payload file in the curl command
           curl -X POST \
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.REPO_PAT }}" \
             https://api.github.com/repos/ludjan/provides-translation-test/dispatches \
-            -d '{"event_type": "create_translation_task", "client_payload": {"keys": $(echo '${{ toJson(env.JSON_MAP) }}'), "repository": "${REPO}", "branch": "${BRANCH}", "target_languages": "${TARGET_LANGUAGES}"}}'
+            -d @payload.json
