@@ -50,7 +50,7 @@ jobs:
           echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
           echo "REPO=$REPO" >> $GITHUB_ENV
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          echo "TARGET_LANGAUGES" >> $GITHUB_ENV
+          echo "TARGET_LANGAUGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
 
       - name: Trigger Translation Workflow in Translation Repo
         run: |
