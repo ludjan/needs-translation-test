@@ -79,6 +79,23 @@ jobs:
           echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
           echo "TARGET_LANGUAGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
 
+      - name: Build JSON payload
+        id: build_payload
+        run: |
+          # Construct the JSON payload
+          JSON_PAYLOAD=$(jq -n \
+            --arg keys "$(echo '${{ toJson(env.JSON_MAP) }}')" \
+            --arg repo "${REPO}" \
+            --arg branch "${BRANCH}" \
+            --arg target_languages "${TARGET_LANGUAGES}" \
+            '{event_type: "create_translation_task", client_payload: {keys: ($keys | fromjson), repository: $repo, branch: $branch, target_languages: $target_languages}}')
+          
+          # Save the payload to a file
+          echo "$JSON_PAYLOAD" > payload.json
+
+          # Print the payload for debugging
+          cat payload.json
+  
       - name: Trigger Translation Workflow in Translation Repo
         run: |
           echo "Payload:"
