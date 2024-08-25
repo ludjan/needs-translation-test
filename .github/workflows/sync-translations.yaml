@@ -84,7 +84,7 @@ jobs:
         run: |
           # Construct the JSON payload
           JSON_PAYLOAD=$(jq -n \
-            --arg keys "$(echo '${{ toJson(env.JSON_MAP) }}')" \
+            --argjson keys "$(echo '${{ toJson(env.JSON_MAP) }}')" \
             --arg repo "${REPO}" \
             --arg branch "${BRANCH}" \
             --arg target_languages "${TARGET_LANGUAGES}" \
