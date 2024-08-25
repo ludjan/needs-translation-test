@@ -11,6 +11,9 @@ on:
         description: "Comma-separated list of target languages (e.g., es, fr, de)."
         required: false
         default: "sv"
+  push:
+    branches:
+      - master
 
 jobs: 
   process-translation-keys:
@@ -34,7 +37,7 @@ jobs:
         run: |
           echo '{"key":"value"}' > data.json
           cat data.json | jq '.key'
-          JSON_MAP=$(cat data.json | jq .)
+          JSON_MAP=$(cat data.json | jq -c .)
           echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
 
       - name: Extract Inputs
