@@ -22,7 +22,6 @@ jobs:
       - name: List localisation files
         run: ls -R ./src/resources/locale/
 
-
       - name: Extract Inputs
         id: extract_inputs
         run: |
@@ -31,8 +30,11 @@ jobs:
           REPO="${{ github.repository }}"
           BRANCH="${{ github.ref_name }}"
 
+          echo "Keys: $KEYS"
+
           # Convert the keys to a JSON array
           KEY_ARRAY=$(echo $KEYS | jq -R 'split(",")')
+          echo "Key array: $KEY_ARRAY"
 
           # Extract the English strings for the specified keys from the locale file
           JSON_MAP=$(jq --argjson keys "$KEY_ARRAY" '
