@@ -1,1 +1,26 @@
-Yey empty for now
+name: Sync translations
+
+on:
+  workflow_dispatch:
+    inputs:
+      keys:
+        description: "Comma-separated list of keys that require translation."
+        required: true
+
+jobs: 
+  process-translation-keys:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract Translation Keys
+        id: extract_keys
+        run: |
+          KEYS="${{ github.event.inputs.keys }}"
+          
+          # Clean up keys (remove spaces, etc.)
+          KEYS=$(echo "$KEYS" | tr -d '[:space:]')
+
+          # Save KEYS to an environment variable
+          echo "KEYS=$KEYS"
