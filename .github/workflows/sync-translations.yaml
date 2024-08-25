@@ -40,7 +40,24 @@ jobs:
 
           echo "Set git variables"
 
+      - name: Set default inputs
+        if: github.event_name == 'push'
+        id: default_inputs
+        run: |
+          JSON_MAP=$(echo '{"key1":"value1"}' | jq -c .)
+          TARGET_LANGUAGES="sv"
+
+          echo "Sets default inputs"
+          echo "JSON_MAP=$JSON_MAP"
+          echo "TARGET_LANGUAGE=$TARGET_LANGUAGE"
+          
+          echo "JSON_MAP=$JSON_MAP" >> $GITHUB_ENV
+          echo "TARGET_LANGAUGES=$TARGET_LANGUAGES" >> $GITHUB_ENV
+
+          echo "Set default inputs"
+
       - name: Extract Inputs
+        if: github.event_name == 'workflow_dispatch'
         id: extract_inputs
         run: |
           KEYS="${{ github.event.inputs.keys }}"
