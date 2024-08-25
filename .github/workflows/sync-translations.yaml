@@ -26,6 +26,8 @@ jobs:
           REPO="${{ github.repository }}"
           BRANCH="${{ github.ref_name }}"
 
+          ls -R ./src/resources/locale/
+
           # Convert the keys to a JSON array
           KEY_ARRAY=$(echo $KEYS | jq -R 'split(",")')
 
